@@ -23,32 +23,46 @@ int compareWords(string word1, string word2)
 
 string searchInDictionary(string ){}
 
+string takeFirstWord(string str) 
+{ 
+   string word = ""; 
+   for (auto x : str) 
+   { 
+       if (x == ' ') 
+       { 
+           return word;
+       } 
+       else
+       { 
+           word = word + x; 
+       } 
+   }  
+    return word;
+} 
+
 int main()
 {
-    cout<<"asdasdasd"<<endl;
     string word;
-    string word1 = "Kadir";
-    string word2 = "Muzaffe";
-
+    string line;
+    string last;
     ofstream output;
     ifstream input;
     input.open("list.txt");
-    input>> word;
-    cout<<compareWords(word1,word2)<<endl;
 
     vector<string> wordList;
-    while(!input.eof()){
-        input>>word;
-        wordList.push_back(word);
+    while(getline(input,line)){
+        word = takeFirstWord(line);
+        if(word != last)
+        wordList.push_back(word);        
+        last = wordList.back(); 
     }
     
     for(int i=0; i<wordList.size();i++ )
     {
-        cout<<wordList[i]<<endl;        
+        cout<<i<<wordList[i]<<endl;        
     }
-        cout<<wordList.size()<<endl;        
- 
-    
+        cout<<wordList.size()<<endl;
+        cout<<wordList.back()<<endl;
 
     return 0;
 }
