@@ -37,16 +37,16 @@ int main()
     cout<<compareWords(word1,word2)<<endl;
 
     vector<string> wordList;
-    for(int i =0; i<15; i++)
-    {
+    while(!input.eof()){
         input>>word;
         wordList.push_back(word);
     }
+    
     for(int i=0; i<wordList.size();i++ )
     {
         cout<<wordList[i]<<endl;        
     }
-
+        cout<<wordList.size()<<endl;        
  
     
 
