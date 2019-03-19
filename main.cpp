@@ -5,6 +5,54 @@
 
 using namespace std;
 
+class Dictionary
+{
+    public:
+    vector<string> list;
+    string inputFile = "list.txt";
+    
+    Dictionary();
+    void addWordsFromInput();
+
+};
+
+void Dictionary::addWordsFromInput()
+{
+    ifstream input;
+    input.open(inputFile);
+    string word;
+    
+    while(!input.eof())
+    {
+        input >> word;    
+        list.push_back(word);
+    }
+    cout<<list.size()<<endl;
+}
+
+Dictionary::Dictionary()
+{
+    addWordsFromInput();
+}
+
+class Menu  
+{
+    public: 
+    Dictionary dictionary;
+    
+    Menu();
+    void start();
+};
+
+void Menu::start()
+{
+    cout<<"\n------------\n";
+    cout<<dictionary.list[1]<<endl;
+}
+Menu::Menu()
+{
+    cout<<"HOŞGELDİNİZ";
+}
 
 
 int compareWords(string word1, string word2)
@@ -21,48 +69,11 @@ int compareWords(string word1, string word2)
     return weight;
 }
 
-string searchInDictionary(string ){}
-
-string takeFirstWord(string str) 
-{ 
-   string word = ""; 
-   for (auto x : str) 
-   { 
-       if (x == ' ') 
-       { 
-           return word;
-       } 
-       else
-       { 
-           word = word + x; 
-       } 
-   }  
-    return word;
-} 
-
 int main()
 {
-    string word;
-    string line;
-    string last;
-    ofstream output;
-    ifstream input;
-    input.open("list.txt");
+    Menu system;
+    system.start();
 
-    vector<string> wordList;
-    while(getline(input,line)){
-        word = takeFirstWord(line);
-        if(word != last)
-        wordList.push_back(word);        
-        last = wordList.back(); 
-    }
-    
-    for(int i=0; i<wordList.size();i++ )
-    {
-        cout<<i<<wordList[i]<<endl;        
-    }
-        cout<<wordList.size()<<endl;
-        cout<<wordList.back()<<endl;
 
     return 0;
 }
