@@ -117,6 +117,7 @@ int Menu::compareWords(string word1, string word2)
         {
             if(word1[i]==word2[j])
             weight+=1;
+            i++;
         }
     }
     return weight;
