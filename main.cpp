@@ -115,17 +115,20 @@ void Menu::printList()
 
 int Menu::compareWords(wstring word1, wstring word2)
 {   int weight=0;
-    wstring w1;
-    for(int k = 0; k<word1.length();k++)
+    wstring w1 = word1;
+    wstring w2 = word2;
+
+    for(int i = 0; i<w1.length(); i++)
     {
-        
-    }
-    for(int i = 0; i<word1.length(); i++)
-    {
-        for(int j = 0; j<word2.length();j++)
+        for(int j = 0; j<w2.length();j++)
         {
-            if(word1[i]==word2[j])
-            weight+=1;
+            if(w1[i]==w2[j])
+            {
+                weight+=1;
+                w2[j]=0;
+                break;    
+            }
+            
         }
     }
     return weight;
