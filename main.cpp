@@ -120,7 +120,11 @@ int Menu::compareWords(wstring word1, wstring word2)
         for(int j = 0; j<word2.length();j++)
         {
             if(word1[i]==word2[j])
-            weight+=1;
+            {
+                weight+=1;
+                word2[j]=0;
+                break;
+            }
         }
     }
     return weight;
