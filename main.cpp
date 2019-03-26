@@ -80,14 +80,18 @@ void Menu::getWeight()
 
     for(int i=0; i<dictionary.list.size();i++ )
     {
-        if(weight == compareWords(dictionary.sampleWord,dictionary.list[i]))
-            cout<<dictionary.list[i]<<endl;        
-        else
+        if(weight != compareWords(dictionary.sampleWord,dictionary.list[i]))
             dictionary.list.erase(dictionary.list.begin()+i);
-    }   
+       else
+            cout<<dictionary.list[i]<<endl;
+    }
     cout<<dictionary.list.size()<<endl;
 
-
+    if(dictionary.list.size()>2)
+    {
+        dictionary.chooseRandomWord();
+        getWeight();
+    }   
 }
 
 void Menu::goBack()
@@ -111,6 +115,13 @@ void Menu::printList()
 
 int Menu::compareWords(string word1, string word2)
 {   int weight=0;
+    string *buffer;
+    int bufferSize = word1.length();
+    buffer = new string[bufferSize];
+    for(int k = 0; k<word1.length();k++)
+    {
+        
+    }
     for(int i = 0; i<word1.length(); i++)
     {
         for(int j = 0; j<word2.length();j++)
