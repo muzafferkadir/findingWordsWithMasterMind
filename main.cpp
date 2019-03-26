@@ -2,8 +2,10 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <locale>
 
 using namespace std;
+
 
 class Dictionary
 {
@@ -20,6 +22,7 @@ class Dictionary
 
 void Dictionary::addWordsFromInput()
 {
+    
     wifstream input;
     input.open(inputFile);
     wstring word;
@@ -73,6 +76,7 @@ Menu::Menu()
 
 void Menu::getWeight()
 {
+    
     cout<<"PLEASE ENTER SAME LETTER NUMBER"<<endl;
     wcout<<"WORD:"<<dictionary.sampleWord<< endl;
     int weight;
@@ -80,18 +84,14 @@ void Menu::getWeight()
 
     for(int i=0; i<dictionary.list.size();i++ )
     {
-        if(weight != compareWords(dictionary.sampleWord,dictionary.list[i]))
+        if(weight == compareWords(dictionary.sampleWord,dictionary.list[i]))
+            wcout<<dictionary.list[i]<<endl;        
+        else
             dictionary.list.erase(dictionary.list.begin()+i);
-       else
-            wcout<<dictionary.list[i]<<endl;
-    }
+    }   
     cout<<dictionary.list.size()<<endl;
 
-    if(dictionary.list.size()>2)
-    {
-        dictionary.chooseRandomWord();
-        getWeight();
-    }   
+
 }
 
 void Menu::goBack()
@@ -115,20 +115,12 @@ void Menu::printList()
 
 int Menu::compareWords(wstring word1, wstring word2)
 {   int weight=0;
-    wstring w1 = word1;
-    wstring w2 = word2;
-
-    for(int i = 0; i<w1.length(); i++)
+    for(int i = 0; i<word1.length(); i++)
     {
-        for(int j = 0; j<w2.length();j++)
+        for(int j = 0; j<word2.length();j++)
         {
-            if(w1[i]==w2[j])
-            {
-                weight+=1;
-                w2[j]=0;
-                break;    
-            }
-            
+            if(word1[i]==word2[j])
+            weight+=1;
         }
     }
     return weight;
@@ -136,6 +128,9 @@ int Menu::compareWords(wstring word1, wstring word2)
 
 int main()
 {
+    wcout.sync_with_stdio(false);
+    wcout.imbue(std::locale("en_US.utf8"));
+    locale::global( locale( "" ) );
     Menu system;
     system.start();
 
