@@ -8,9 +8,9 @@ using namespace std;
 class Dictionary
 {
     public:
-    vector<string> list;
+    vector<wstring> list;
     string inputFile = "list.txt";
-    string sampleWord;
+    wstring sampleWord;
 
     Dictionary();
     void chooseRandomWord();
@@ -20,9 +20,9 @@ class Dictionary
 
 void Dictionary::addWordsFromInput()
 {
-    ifstream input;
+    wifstream input;
     input.open(inputFile);
-    string word;
+    wstring word;
     
     while(!input.eof())
     {
@@ -57,13 +57,13 @@ class Menu
     void getWeight();
     void goBack();
     void printList();
-    int compareWords(string word1, string word2);
+    int compareWords(wstring word1, wstring word2);
 };
 
 void Menu::start()
 {
     cout<<"------------"<<endl;
-    cout<<dictionary.list[1]<<endl;
+    wcout<<dictionary.list[1]<<endl;
     getWeight();
 }
 Menu::Menu()
@@ -74,7 +74,7 @@ Menu::Menu()
 void Menu::getWeight()
 {
     cout<<"PLEASE ENTER SAME LETTER NUMBER"<<endl;
-    cout<<"WORD:"<<dictionary.sampleWord<< endl;
+    wcout<<"WORD:"<<dictionary.sampleWord<< endl;
     int weight;
     cin >> weight;
 
@@ -83,7 +83,7 @@ void Menu::getWeight()
         if(weight != compareWords(dictionary.sampleWord,dictionary.list[i]))
             dictionary.list.erase(dictionary.list.begin()+i);
        else
-            cout<<dictionary.list[i]<<endl;
+            wcout<<dictionary.list[i]<<endl;
     }
     cout<<dictionary.list.size()<<endl;
 
@@ -109,15 +109,13 @@ void Menu::printList()
 {
     for(int i=0; i<dictionary.list.size();i++ )
     {
-        cout<<dictionary.list[i]<<endl;        
+        wcout<<dictionary.list[i]<<endl;        
     }
 }
 
-int Menu::compareWords(string word1, string word2)
+int Menu::compareWords(wstring word1, wstring word2)
 {   int weight=0;
-    string *buffer;
-    int bufferSize = word1.length();
-    buffer = new string[bufferSize];
+    wstring w1;
     for(int k = 0; k<word1.length();k++)
     {
         

@@ -9,16 +9,22 @@ using namespace std;
 int main()
 { 
     int result=0;
-    wstring a =L"makaş";
-    wstring b =L"dakaaaş";
+    wstring a =L"makaaaşşi";
+    wstring b =L"dakaaaaşıı";
+
+/*
+    wstring a (c.begin(),c.end());
+    wstring b (d.begin(),d.end());
+*/
 
     for(int i=0;i<a.length();i++)
     {
         for(int j=0;j<b.length();j++)
         {
-            if(float(a[i])==float(b[j]))
+            if(a[i]==b[j])
             {  
                 result+=1;
+                b[j]=0;
                 break;
             }
             
