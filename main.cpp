@@ -40,7 +40,6 @@ void Dictionary::chooseRandomWord()
     int random;
     srand(time(NULL));
     random = rand() % list.size();
-    cout<< random<<endl;
     sampleWord = list[random];
 }
 
@@ -66,7 +65,7 @@ class Menu
 void Menu::start()
 {
     cout<<"------------"<<endl;
-    wcout<<dictionary.list[1]<<endl;
+    wcout<<dictionary.list[5060]<<endl;
     getWeight();
 }
 Menu::Menu()
@@ -84,13 +83,21 @@ void Menu::getWeight()
 
     for(int i=0; i<dictionary.list.size();i++ )
     {
-        if(weight == compareWords(dictionary.sampleWord,dictionary.list[i]))
-            wcout<<dictionary.list[i]<<endl;        
-        else
+        if(weight != compareWords(dictionary.sampleWord,dictionary.list[i]))
             dictionary.list.erase(dictionary.list.begin()+i);
+    
+        else
+            wcout<<dictionary.list[i]<<endl;        
+    
     }   
     cout<<dictionary.list.size()<<endl;
+    if(dictionary.list.size()>2)
+    {
+        dictionary.chooseRandomWord();
+        getWeight();
 
+    }
+        
 
 }
 
@@ -115,14 +122,16 @@ void Menu::printList()
 
 int Menu::compareWords(wstring word1, wstring word2)
 {   int weight=0;
-    for(int i = 0; i<word1.length(); i++)
+    wstring w1 = word1;
+    wstring w2 = word2;
+    for(int i = 0; i<w1.length(); i++)
     {
-        for(int j = 0; j<word2.length();j++)
+        for(int j = 0; j<w2.length();j++)
         {
-            if(word1[i]==word2[j])
+            if(w1[i]==w2[j])
             {
                 weight+=1;
-                word2[j]=0;
+                w2[j]=0;
                 break;
             }
         }
