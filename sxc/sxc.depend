@@ -1,0 +1,8 @@
+# depslib dependency file v1.0
+1554044453 source:c:\users\enez birol\desktop\sxc\main.cpp
+	<iostream>
+	<fstream>
+	<string>
+	<vector>
+	<locale>
+
