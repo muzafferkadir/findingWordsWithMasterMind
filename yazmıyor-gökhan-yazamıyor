@@ -58,6 +58,7 @@ class Menu
     void start();
     void getWeight();
     void getCartesian();
+    void getTogether();
     void goBack();
     void printList();
     int compareWords(wstring word1, wstring word2);
@@ -74,30 +75,47 @@ void Menu::start()
     cout<<"Bilgisayar-İnsan Kartezyen İçin '5' "<<endl;
     cout<<"Bilgisayar-İnsan Hem Kartezyen Hem Normali İçin '6' "<<endl;
     cout<<"Oyundan Çıkmak  için '0' Giriniz"<<endl;
+    dictionary.addWordsFromInput();
     int a;
     cin>>a;
 
     switch (a){
-    case 1:
-            dictionary.addWordsFromInput();
-            dictionary.chooseRandomWord();
+        case 1:
 
-            cout<<"insan-pc"<<endl;
+            dictionary.chooseRandomWord();
+            cout<<"insan-pc normal"<<endl;
             cout<<"Toplam Kelime Sayisi : "<<dictionary.list.size()<<endl;
             wcout<<dictionary.list[5]<<endl;
             getWeight();
-        start();
-    case 2:
-            cout<<"pc-insan"<<endl;
+
             start();
-    case 3:
-        cout<<"program sonu";
+
+        case 2:
+            cout<<"insan-pc kartezyen"<<endl;
+            dictionary.chooseRandomWord();
+            cout<<"Toplam Kelime Sayisi : "<<dictionary.list.size()<<endl;
+            wcout<<dictionary.list[5]<<endl;
+            getCartesian();
+            dictionary.list.clear();
+            start();
+
+        case 3:
+            cout<<"insan-pc Normal ve Kartezyen"<<endl;
+            dictionary.chooseRandomWord();
+            cout<<"Toplam Kelime Sayisi : "<<dictionary.list.size()<<endl;
+            wcout<<dictionary.list[5]<<endl;
+            getTogether();
+            dictionary.list.clear();
+            start();
+        default:
+            cout<<"gecersiz giris"<<endl;
+            start() ;
+            case 0:
+        cout<<"Oyun sonu"<<endl;
         break;
-    default:
-        cout<<"gecersiz giris"<<endl;
-       start() ;
 
     }
+
 
 
 
@@ -138,8 +156,6 @@ void Menu::getWeight()
     {
         dictionary.chooseRandomWord();
         getWeight();
-        wcout<<dictionary.list[1];
-
     }
 
 
@@ -159,24 +175,51 @@ void Menu::getCartesian()
         if(cartesiann == comWords(dictionary.sampleWord,dictionary.list[i]))
         {
             wcout<<dictionary.list[i]<<endl;
-            cout<<"cartesian"<<compareWords(dictionary.sampleWord,dictionary.list[i])<<endl;
-
+            cout<<"cartesian"<<comWords(dictionary.sampleWord,dictionary.list[i])<<endl;
         }
-
         else
         {
             dictionary.list.erase(dictionary.list.begin()+i);
             i--;
         }
-
     }
-
     cout<<dictionary.list.size()<<endl;
-
     if(dictionary.list.size()>1)
     {
         dictionary.chooseRandomWord();
-        getWeight();
+        getCartesian();
+
+    }
+}
+void Menu::getTogether()
+{
+    cout<<"PLEASE ENTER SAME LETTER NUMBER"<<endl;
+    wcout<<"WORD:"<<dictionary.sampleWord<< endl;
+    int normal;
+    cin>>normal;
+
+    int cartesiann;
+    cin >> cartesiann;
+
+    for(int i=0; i<dictionary.list.size();i++ )
+    {
+        if(cartesiann == comWords(dictionary.sampleWord,dictionary.list[i])&&normal==compareWords(dictionary.sampleWord,dictionary.list[i]))
+        {
+            wcout<<dictionary.list[i]<<endl;
+            cout<<"Normal"<<compareWords(dictionary.sampleWord,dictionary.list[i])<<endl;
+            cout<<"cartesian"<<comWords(dictionary.sampleWord,dictionary.list[i])<<endl;
+        }
+        else
+        {
+            dictionary.list.erase(dictionary.list.begin()+i);
+            i--;
+        }
+    }
+    cout<<dictionary.list.size()<<endl;
+    if(dictionary.list.size()>1)
+    {
+        dictionary.chooseRandomWord();
+        getTogether();
 
     }
 }
@@ -232,7 +275,7 @@ int Menu::comWords(wstring word1, wstring word2)
         {
             if(w1[i]==w2[j])
             {
-                sirali+=1;
+                sirali=sirali+1;
             }
         }
     }
