@@ -6,12 +6,13 @@
 
 using namespace std;
 
+    int dict_number=0;
 
 class Dictionary
 {
     public:
     vector<wstring> list;
-    string inputFile = "list.txt";
+    string inputFile = "sozluk.txt";
     wstring sampleWord;
 
     Dictionary();
@@ -33,16 +34,24 @@ void Dictionary::addWordsFromInput()
         list.push_back(word);
     }
     cout<<list.size()<<endl;
+    dict_number = list.size();
 }
 
 void Dictionary::chooseRandomWord()
-{
+{/*
     int random;
     srand(time(NULL));
-    random = rand() % list.size();
-    sampleWord = list[random];
+    random = rand() % dict_number;
+    for(int i =0;i<list.size();i++)
+        if(list[i]==L"")
+            i++;
+        else if(random==i)
+            sampleWord=list[i];
+    wcout<<"random number: "<<random<<"sampleword: "<<sampleWord<<endl;*/
+    for(int i = 0;i<list.size();i++)
+        if(list[i]!=L"")
+            sampleWord= list[i];
 }
-
 Dictionary::Dictionary()
 {
     addWordsFromInput();
@@ -65,7 +74,7 @@ class Menu
 void Menu::start()
 {
     cout<<"------------"<<endl;
-    wcout<<dictionary.list[5060]<<endl;
+    wcout<<dictionary.list[5023]<<endl;
     getWeight();
 }
 Menu::Menu()
@@ -79,24 +88,36 @@ void Menu::getWeight()
     cout<<"PLEASE ENTER SAME LETTER NUMBER"<<endl;
     wcout<<"WORD:"<<dictionary.sampleWord<< endl;
     int weight;
+    int same;
     cin >> weight;
+
+    dict_number=0;
 
     for(int i=0; i<dictionary.list.size();i++ )
     {
-        if(weight != compareWords(dictionary.sampleWord,dictionary.list[i]))
-            dictionary.list.erase(dictionary.list.begin()+i);
-    
+        same = compareWords(dictionary.sampleWord,dictionary.list[i]);
+        if(weight != same)
+            dictionary.list[i]=L"";     
         else
-            wcout<<dictionary.list[i]<<endl;        
-    
+            dict_number+=1;
+            wcout<<dictionary.list[i]<<endl;
+
     }   
-    cout<<dictionary.list.size()<<endl;
-    if(dictionary.list.size()>2)
+    if(dict_number>2)
     {
+        //printList();
+        cout<<dictionary.list.size()<<endl;
+        cout<<"Number:"<<dict_number<<endl;
+        wcout<<dictionary.list[5023]<<endl;
         dictionary.chooseRandomWord();
         getWeight();
-
     }
+    else
+    {
+        //printList();
+        cout<<"BİTTİ"<<endl;
+    }
+    
         
 
 }
@@ -116,7 +137,8 @@ void Menu::printList()
 {
     for(int i=0; i<dictionary.list.size();i++ )
     {
-        wcout<<dictionary.list[i]<<endl;        
+        if(dictionary.list[i]!=L"")
+            wcout<<dictionary.list[i]<<endl;        
     }
 }
 
@@ -136,6 +158,7 @@ int Menu::compareWords(wstring word1, wstring word2)
             }
         }
     }
+   // wcout<<weight<<endl;
     return weight;
 }
 
