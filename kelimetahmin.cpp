@@ -1,3 +1,4 @@
+
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -7,6 +8,7 @@
 using namespace std;
 
 
+string kelime;
 class Dictionary
 {
     public:
@@ -14,16 +16,13 @@ class Dictionary
     string inputFile = "list.txt";
     wstring sampleWord;
 
-
     Dictionary();
     void chooseRandomWord();
     void addWordsFromInput();
-
 };
 
 void Dictionary::addWordsFromInput()
 {
-
     wifstream input;
     input.open(inputFile);
     wstring word;
@@ -33,7 +32,7 @@ void Dictionary::addWordsFromInput()
         input >> word;
         list.push_back(word);
     }
-    //cout<<list.size()<<endl;
+    cout<<list.size()<<endl;
 }
 
 void Dictionary::chooseRandomWord()
@@ -59,26 +58,31 @@ class Menu
     void getWeight();
     void getCartesian();
     void getTogether();
+    void pcgetWeight(wstring tahmin);
+    void pcgetKartezyen(wstring kelimem);
     void goBack();
     void printList();
     int compareWords(wstring word1, wstring word2);
     int comWords(wstring word1, wstring word2);
+    void pcnormal();
+    void pckartezyen();
+    void kullanicidan_al();
+
 };
 
 void Menu::start()
 {
-    cout<<"Lütfen Oynamak istediğiniz Oyunu Seçiniz.."<<endl;
-    cout<<"İnsan-bilgisayar Normali için '1' "<<endl;
-    cout<<"İnsan-bilgisayar Kartezyen için '2' "<<endl;
-    cout<<"İnsan-bilgisayar hem Kartezyen hem Normali için '3' "<<endl;
-    cout<<"Bilgisayar-İnsan Normali İçin '4' "<<endl;
-    cout<<"Bilgisayar-İnsan Kartezyen İçin '5' "<<endl;
-    cout<<"Bilgisayar-İnsan Hem Kartezyen Hem Normali İçin '6' "<<endl;
-    cout<<"Oyundan Çıkmak  için '0' Giriniz"<<endl;
+    cout<<"Lütfen Oynamak istediðiniz Oyunu Seçiniz.."<<endl;
+    cout<<"Ýnsan-bilgisayar Normali için '1' "<<endl;
+    cout<<"Ýnsan-bilgisayar Kartezyen için '2' "<<endl;
+    cout<<"Ýnsan-bilgisayar hem Kartezyen hem Normali için '3' "<<endl;
+    cout<<"Bilgisayar-Ýnsan Normali Ýçin '4' "<<endl;
+    cout<<"Bilgisayar-Ýnsan Kartezyen Ýçin '5' "<<endl;
+    cout<<"Bilgisayar-Ýnsan Hem Kartezyen Hem Normali Ýçin '6' "<<endl;
+    cout<<"Oyundan Çýkmak  için '0' Giriniz"<<endl;
     dictionary.addWordsFromInput();
     int a;
     cin>>a;
-
     switch (a){
         case 1:
 
@@ -87,9 +91,9 @@ void Menu::start()
             cout<<"Toplam Kelime Sayisi : "<<dictionary.list.size()<<endl;
             wcout<<dictionary.list[5]<<endl;
             getWeight();
+            dictionary.list.clear();
 
-            start();
-
+            //start();
         case 2:
             cout<<"insan-pc kartezyen"<<endl;
             dictionary.chooseRandomWord();
@@ -97,8 +101,7 @@ void Menu::start()
             wcout<<dictionary.list[5]<<endl;
             getCartesian();
             dictionary.list.clear();
-            start();
-
+            //start();
         case 3:
             cout<<"insan-pc Normal ve Kartezyen"<<endl;
             dictionary.chooseRandomWord();
@@ -106,20 +109,123 @@ void Menu::start()
             wcout<<dictionary.list[5]<<endl;
             getTogether();
             dictionary.list.clear();
-            start();
-        default:
+            //start();
+        case 4 :
+            cout<<"Bilgisayar-insan normal"<<endl;
+            dictionary.chooseRandomWord();
+            //cout<<"tahmin edilecek kelime : ";
+            wcout<<dictionary.sampleWord<<endl;
+            pcnormal();
+            //dictionary.list.clear();
+            //start();
+        case 5 :
+            cout<<"Bilgisayar -insan kartezyen"<<endl;
+            dictionary.chooseRandomWord();
+           // cout<<"tahmin edilecek kelime : "<<endl;
+            wcout<<dictionary.sampleWord<<endl;
+            pckartezyen();
+            dictionary.list.clear();
+            //start();
+
+        case 0:
+            cout<<"Oyun sonu"<<endl;
+            return;
+        default :
             cout<<"gecersiz giris"<<endl;
-            start() ;
-            case 0:
-        cout<<"Oyun sonu"<<endl;
-        break;
+            //start() ;
+
+    }
+}
+
+void Menu:: pcnormal()
+{
+    kullanicidan_al();
+    wstring kelimem(kelime.length(),L' ');
+    copy(kelime.begin(),kelime.end(),kelimem.begin());
+    pcgetWeight(kelimem);
+
+}
+
+void Menu:: pckartezyen()
+{
+    kullanicidan_al();
+    wstring kelimem(kelime.length(),L' ');
+    copy(kelime.begin(),kelime.end(),kelimem.begin());
+    pcgetKartezyen(kelimem);
+}
+
+void Menu::kullanicidan_al()
+{
+    cout<<"kelime gir: ";
+    cin>>kelime;
+    cout<<kelime;
+}
+
+void Menu::pcgetWeight(wstring tahmin)
+{
+
+    for(int i=0; i<dictionary.list.size();i++ )
+    {
+        if(tahmin==dictionary.sampleWord)
+        {
+            wcout<<"Kelimem bu: "<<tahmin<<endl;
+            dictionary.list.clear();
+            start();
+        }
+
+
+        if(compareWords(dictionary.sampleWord,tahmin)==compareWords(dictionary.sampleWord,dictionary.list[i]))
+        {
+            wcout<<dictionary.list[i]<<endl;
+            cout<<"weight"<<compareWords(dictionary.sampleWord,tahmin)<<endl;
+
+        }
+        else
+        {
+            dictionary.list.erase(dictionary.list.begin()+i);
+            i--;
+        }
 
     }
 
+    cout<<dictionary.list.size()<<endl;
 
-
+    if(dictionary.list.size()>1)
+    {
+        pcnormal();
+    }
 
 }
+
+void Menu::pcgetKartezyen(wstring tahmin)
+{
+    if(tahmin==dictionary.sampleWord)
+        {
+            wcout<<"Kelimem bu: "<<tahmin<<endl;
+            start();
+        }
+
+    for(int i=0; i<dictionary.list.size();i++ )
+    {
+        if(comWords(dictionary.sampleWord,tahmin)==comWords(dictionary.sampleWord,dictionary.list[i]))
+        {
+            wcout<<dictionary.list[i]<<endl;
+            cout<<"cartesian"<<comWords(dictionary.sampleWord,dictionary.list[i])<<endl;
+        }
+        else
+        {
+            dictionary.list.erase(dictionary.list.begin()+i);
+            i--;
+        }
+    }
+    cout<<dictionary.list.size()<<endl;
+    if(dictionary.list.size()>1)
+    {
+        pckartezyen();
+    }
+}
+
+
 Menu::Menu()
 {
 
@@ -131,14 +237,13 @@ void Menu::getWeight()
     wcout<<"WORD:"<<dictionary.sampleWord<< endl;
     int weight;
     cin >> weight;
-
-
     for(int i=0; i<dictionary.list.size();i++ )
     {
+
         if(weight == compareWords(dictionary.sampleWord,dictionary.list[i]))
         {
-            wcout<<dictionary.list[i]<<endl;
-            cout<<"weight"<<compareWords(dictionary.sampleWord,dictionary.list[i])<<endl;
+            //wcout<<dictionary.list[i]<<endl;
+            //cout<<"weight"<<compareWords(dictionary.sampleWord,dictionary.list[i])<<endl;
 
         }
 
@@ -151,7 +256,6 @@ void Menu::getWeight()
     }
 
     cout<<dictionary.list.size()<<endl;
-
     if(dictionary.list.size()>1)
     {
         dictionary.chooseRandomWord();
@@ -191,6 +295,7 @@ void Menu::getCartesian()
 
     }
 }
+
 void Menu::getTogether()
 {
     cout<<"PLEASE ENTER SAME LETTER NUMBER"<<endl;
@@ -224,17 +329,6 @@ void Menu::getTogether()
     }
 }
 
-void Menu::goBack()
-{
-    cout<<"GO BACK[Y]"<<endl;
-    string end;
-    while(true){
-        cin>>end;
-        if((end=="y") || (end=="Y"))
-            return getWeight();
-    }
-}
-
 void Menu::printList()
 {
     for(int i=0; i<dictionary.list.size();i++ )
@@ -244,7 +338,8 @@ void Menu::printList()
 }
 
 int Menu::compareWords(wstring word1, wstring word2)
-{   int weight=0;
+{
+    int weight=0;
     wstring w1 = word1;
     wstring w2 = word2;
 
@@ -264,6 +359,7 @@ int Menu::compareWords(wstring word1, wstring word2)
 
     return weight;
 }
+
 int Menu::comWords(wstring word1, wstring word2)
 {
     int sirali=0;
@@ -286,11 +382,10 @@ int Menu::comWords(wstring word1, wstring word2)
 int main()
 {
     wcout.sync_with_stdio(false);
-    setlocale(LC_ALL, "Turkish");
+    wcout.imbue(std::locale("en_US.utf8"));
+    locale::global( locale( "" ) );
     Menu system;
     system.start();
-
-
 
     return 0;
 }
